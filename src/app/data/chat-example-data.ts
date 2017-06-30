@@ -4,10 +4,22 @@ import { Thread } from '../thread/thread.model';
 import { Message } from '../message/message.model';
 import { MessagesService } from '../message/messages.service';
 import { ThreadsService } from '../thread/threads.service';
-import { UsersService } from '../user/users.service';
+import { userServiceInjectables, UsersService } from '../user/users.service';
+import { ApiAiClient } from 'api-ai-javascript';
+import { IRequestOptions, IServerResponse, ApiAiConstants } from "api-ai-javascript";
 import * as moment from 'moment';
 
 // seteo de la persona como Mauro Herlein
+const lang = ApiAiConstants.AVAILABLE_LANGUAGES.ES;
+ 
+
+// const client = new ApiAiClient({accessToken: 'f1bb60857ac24ac5b28c2a3d331007d1'})
+// .textRequest('Hello!')
+//     .then((response) => {console.log(response);})
+//   .catch((error) => {console.log(error)});
+
+// console.log("prueba cliente" + client.then((Response) => {}).catch((error) => {}));
+
 const me: User      = new User('Mauro Herlein', 'assets/images/avatars/mauro-herlein.jpg');
 const ladycap: User = new User('Lady Capulet', 'assets/images/avatars/female-avatar-2.png');
 const echo: User    = new User('Echo Bot', 'assets/images/avatars/male-avatar-1.png');
@@ -61,6 +73,13 @@ const initialMessages: Array<Message> = [
 ];
 
 export class ChatExampleData {
+
+  private respuesta: '';
+
+  getRespuesta(): string {
+    return this.respuesta;
+  }
+
   static init(messagesService: MessagesService,
               threadsService: ThreadsService,
               UsersService: UsersService): void {
@@ -136,42 +155,31 @@ export class ChatExampleData {
       },
                 null);
 
-  //Asistente virtual
+  //  Asistente virtual
   messagesService.messagesForThreadUser(tHelp, help)
       .forEach( (message: Message): void => {
 
-        let waitTime: number = parseInt(message.text, 10);
-        let reply: string;
-
-        if (message.text === 'hola') {
-          reply="¿Como estas?"
-        }
-
-        if (message.text === 'bien') {
-          reply="Me alegro"
-        }
-
-        // if (isNaN(waitTime)) {
-        //   waitTime = 0;
-        //   reply = `No estoy entendiendo el mensaje "${message.text}." Intenta eligiendo alguna de las preguntas frecuentes que tenemos.`;
-        // } else {
-        //   reply = `Yo estoy esperando ${waitTime} segundos para enviar esto.`;
-        // }
-
-        setTimeout(
-          () => {
-            messagesService.addMessage(
-              new Message({
-                author: help,
-                text: reply,
-                thread: tHelp
+        let waitTime: 10;
+        var reply: string;
+        
+        let client = new ApiAiClient({accessToken: 'f1bb60857ac24ac5b28c2a3d331007d1'})
+            .textRequest(message.text)
+            .then((response) => {
+              setTimeout(() => {
+                  messagesService.addMessage(
+                    new Message({
+                      author: help,
+                      text: response.result.fulfillment.speech,
+                      thread: tHelp
+                    })
+                  );
+                },
+                waitTime * 10000);
               })
-            );
-          },
-          waitTime * 1000);
-      },
-                null);
+            .catch((error) => {console.log(error)});
+      }, null);
 
 
   }
+
 }
