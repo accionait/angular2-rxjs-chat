@@ -7,7 +7,7 @@ import { ThreadsService } from '../thread/threads.service';
 import { UsersService } from '../user/users.service';
 import * as moment from 'moment';
 
-// the person using the app us Juliet
+// seteo de la persona como Mauro Herlein
 const me: User      = new User('Mauro Herlein', 'assets/images/avatars/mauro-herlein.jpg');
 const ladycap: User = new User('Lady Capulet', 'assets/images/avatars/female-avatar-2.png');
 const echo: User    = new User('Echo Bot', 'assets/images/avatars/male-avatar-1.png');
@@ -68,7 +68,7 @@ export class ChatExampleData {
     // TODO make `messages` hot
     messagesService.messages.subscribe(() => ({}));
 
-    // set "Juliet" as the current user
+    // set "Mauro" como el usaurio actual
     UsersService.setCurrentUser(me);
 
     // create the initial messages
