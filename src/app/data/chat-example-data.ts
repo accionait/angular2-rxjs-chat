@@ -8,16 +8,18 @@ import { UsersService } from '../user/users.service';
 import * as moment from 'moment';
 
 // the person using the app us Juliet
-const me: User      = new User('Juliet', 'assets/images/avatars/female-avatar-1.png');
+const me: User      = new User('Mauro Herlein', 'assets/images/avatars/mauro-herlein.jpg');
 const ladycap: User = new User('Lady Capulet', 'assets/images/avatars/female-avatar-2.png');
 const echo: User    = new User('Echo Bot', 'assets/images/avatars/male-avatar-1.png');
 const rev: User     = new User('Reverse Bot', 'assets/images/avatars/female-avatar-4.png');
 const wait: User    = new User('Waiting Bot', 'assets/images/avatars/male-avatar-2.png');
+const help: User = new User('Asistente Virtual', 'assets/images/avatars/male-avatar-3.png');
 
 const tLadycap: Thread = new Thread('tLadycap', ladycap.name, ladycap.avatarSrc);
 const tEcho: Thread    = new Thread('tEcho', echo.name, echo.avatarSrc);
 const tRev: Thread     = new Thread('tRev', rev.name, rev.avatarSrc);
 const tWait: Thread    = new Thread('tWait', wait.name, wait.avatarSrc);
+const tHelp: Thread = new Thread('tHelp', help.name, help.avatarSrc);
 
 const initialMessages: Array<Message> = [
   new Message({
@@ -45,10 +47,16 @@ const initialMessages: Array<Message> = [
     thread: tRev
   }),
   new Message({
-    author: wait,
+    author: wait,  
     sentAt: moment().subtract(4, 'minutes').toDate(),
     text: `I\'ll wait however many seconds you send to me before responding. Try sending '3'`,
     thread: tWait
+  }),
+  new Message({
+    author: help,
+    sentAt: moment().subtract(4, 'minutes').toDate(),
+    text: `Hola soy un asistente virtual ¿En que puedo ayudarte?`,
+    thread: tHelp
   }),
 ];
 
@@ -121,6 +129,42 @@ export class ChatExampleData {
                 author: wait,
                 text: reply,
                 thread: tWait
+              })
+            );
+          },
+          waitTime * 1000);
+      },
+                null);
+
+  //Asistente virtual
+  messagesService.messagesForThreadUser(tHelp, help)
+      .forEach( (message: Message): void => {
+
+        let waitTime: number = parseInt(message.text, 10);
+        let reply: string;
+
+        if (message.text === 'hola') {
+          reply="¿Como estas?"
+        }
+
+        if (message.text === 'bien') {
+          reply="Me alegro"
+        }
+
+        // if (isNaN(waitTime)) {
+        //   waitTime = 0;
+        //   reply = `No estoy entendiendo el mensaje "${message.text}." Intenta eligiendo alguna de las preguntas frecuentes que tenemos.`;
+        // } else {
+        //   reply = `Yo estoy esperando ${waitTime} segundos para enviar esto.`;
+        // }
+
+        setTimeout(
+          () => {
+            messagesService.addMessage(
+              new Message({
+                author: help,
+                text: reply,
+                thread: tHelp
               })
             );
           },
