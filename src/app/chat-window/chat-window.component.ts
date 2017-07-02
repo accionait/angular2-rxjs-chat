@@ -25,6 +25,8 @@ export class ChatWindowComponent implements OnInit {
   currentThread: Thread;
   draftMessage: Message;
   currentUser: User;
+  preguntasFrecuentes: boolean = false;
+  mostrarChat: boolean = false;
 
   constructor(public messagesService: MessagesService,
               public threadsService: ThreadsService,
@@ -75,5 +77,19 @@ export class ChatWindowComponent implements OnInit {
     const scrollPane: any = this.el
       .nativeElement.querySelector('.msg-container-base');
     scrollPane.scrollTop = scrollPane.scrollHeight;
+  }
+
+  mostrarPreguntasFrecuentes() {
+    if (this.preguntasFrecuentes === true) {
+      this.preguntasFrecuentes = false;
+    }
+    this.preguntasFrecuentes = true;
+  }
+
+  openChat() {
+    if (this.mostrarChat === true) {
+      this.mostrarChat = false;
+    }
+    this.mostrarChat = true;
   }
 }

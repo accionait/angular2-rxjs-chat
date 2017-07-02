@@ -1,9 +1,54 @@
-<div class="chat-window-container" >
+<button md-raised-button class="btnChat" (click)="openChat()">
+  <p><b>AYUDA</b></p>
+</button>
+<div class="chat-window-container" *ngIf="mostrarChat">
   <div class="chat-window">
     <div class="panel-container">
-      <div class="panel panel-default">
-
+      <div class="chat-window-container" >
+        <div class="accionabot-chat-complement-tab-container">
+          <md-card class="acciona-bot-preguntas-frecuentes" *ngIf="preguntasFrecuentes">
+              <div class="accioona-bot-preguntas-frecuentes-window" >
+                <div class="accioona-bot-preguntas-frecuentes-title">
+                  <md-icon class="md-18">live_help</md-icon>
+                  <p><b> Preguntas Frecuentes</b></p>
+                </div>
+              </div>
+              <div class="preguntasFrecuentes">
+                <div class="preguntas">
+                  <md-icon>keyboard_arrow_right</md-icon>
+                  <a><b>¿Como recupero mi PIN?</b></a>
+                </div>
+                <div class="preguntas">
+                  <md-icon>keyboard_arrow_right</md-icon>
+                  <a><b>¿Como firmar documentos?</b></a>
+                </div>
+                <div class="preguntas">
+                  <md-icon>keyboard_arrow_right</md-icon>
+                  <a><b>¿Como cambiar mi PIN?</b></a>
+                </div>
+                <div class="preguntas">
+                  <md-icon>keyboard_arrow_right</md-icon>
+                  <a><b>¿Como recupero mi contraseña?</b></a>
+                </div>
+                <div class="preguntas">
+                  <md-icon>keyboard_arrow_right</md-icon>
+                  <a><b>¿Como descargo mis documentos?</b></a>
+                </div>
+              </div>
+              <md-card-actions align="end">
+                <button color="primary" md-raised-button>Cerrar</button>
+              </md-card-actions>
+          </md-card>
+          <div class="accionabot-chat-complement-tab">
+              <div class="accionabot-chat-complement-tab-title" (click)="mostrarPreguntasFrecuentes()">
+                  Preguntas Frecuentes
+              </div>
+              <md-icon style="top: 2px; color: white;" class="md-18">keyboard_arrow_right</md-icon>
+            </div>
+        </div>
+      <div class="panel panel-default"> 
         <div class="panel-heading top-bar">
+      
           <div class="panel-title-container">
             <h3 class="panel-title">
               <span class="glyphicon glyphicon-comment"></span>
@@ -17,24 +62,29 @@
 
         <div class="panel-body msg-container-base">
           <chat-message
-          *ngFor="let message of messages | async"
-          [message]="message">
+            *ngFor="let message of messages | async"
+            [message]="message">
         </chat-message>
       </div>
 
       <div class="panel-footer">
         <div class="input-group">
-          <input type="text"
-          class="chat-input"
-          placeholder="Ej: ¿Como recupero mi PIN?"
-          (keydown.enter)="onEnter($event)"
-          [(ngModel)]="draftMessage.text" />
+          <md-input-container style="width: 200px;">
+            <input type="text"
+                    mdInput
+                    placeholder="Ej: ¿Como recupero mi PIN?"
+                    (keydown.enter)="onEnter($event)"
+                    [(ngModel)]="draftMessage.text" />
+          </md-input-container>
           <span class="input-group-btn">
-            <button md-button-raised color="primary" (click)="onEnter($event)">Send</button>
+            <button md-raised-button color="primary" (click)="onEnter($event)">Enviar</button>
           </span>
         </div>
+        
       </div>
-
+      <!--<div class="sign">
+        <img src="assets/images/logos/acciona_bot_logo121x34.png" alt="Acciona Bot"  height="20" width="52">
+      </div>-->
     </div>
   </div>
 </div>

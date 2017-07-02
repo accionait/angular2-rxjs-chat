@@ -17,7 +17,7 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 import { FromNowPipe } from './pipes/from-now.pipe';
 
 // Nuevos modulos agregados
-import { MaterialModule, MdNativeDateModule } from '@angular/material';
+import { MdButtonModule, MaterialModule, MdNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DragulaModule } from 'ng2-dragula';
@@ -40,6 +40,7 @@ import 'hammerjs';
     HttpModule,
     MaterialModule,
     MdNativeDateModule,
+    MdButtonModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
@@ -49,6 +50,7 @@ import 'hammerjs';
     FormsModule,
     HttpModule,
     MaterialModule,
+    MdButtonModule,
     MdNativeDateModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
